@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutorials — Dipak Barman</title>
-    <meta name="description" content="Hands-on code tutorials by Dipak Barman covering Laravel, CodeIgniter, REST APIs, JWT, React, React Native, MySQL, MongoDB, Tailwind and Bootstrap — with copy-ready snippets.">
+    <meta name="description" content="200+ hands-on code tutorials by Dipak Barman across PHP, Laravel, CodeIgniter, REST APIs, JWT, React, React Native, Node.js, MySQL, MongoDB, Tailwind, Bootstrap and more — searchable, filterable, copy-ready.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     <!-- Navbar -->
     <nav class="navbar scrolled" id="navbar">
         <a href="index.html" class="logo">Dipak<span>.</span></a>
-        <button class="nav-toggle" id="sidebarToggle" aria-label="Toggle tutorials menu">
+        <button class="nav-toggle" id="sidebarToggle" aria-label="Toggle categories menu">
             <span></span><span></span><span></span>
         </button>
         <ul class="nav-links">
@@ -29,22 +29,11 @@
     </nav>
 
     <div class="tut-layout">
-        <!-- Sidebar menu -->
+        <!-- Sidebar: category filter -->
         <aside class="tut-sidebar" id="tutSidebar">
-            <p class="tut-sidebar-title">📚 Tutorials</p>
-            <p class="tut-sidebar-sub">10 hands-on guides across my stack</p>
-            <nav class="tut-menu" id="tutMenu">
-                <a href="#razorpay-laravel" class="active"><span class="tut-menu-num">01</span> Razorpay in Laravel</a>
-                <a href="#jwt-codeigniter"><span class="tut-menu-num">02</span> JWT Auth · CodeIgniter</a>
-                <a href="#rest-codeigniter"><span class="tut-menu-num">03</span> REST API · CodeIgniter</a>
-                <a href="#react-fetch"><span class="tut-menu-num">04</span> Data Fetching in React</a>
-                <a href="#react-native-list"><span class="tut-menu-num">05</span> API List · React Native</a>
-                <a href="#mysql-crud"><span class="tut-menu-num">06</span> MySQL CRUD · PHP PDO</a>
-                <a href="#mongodb-crud"><span class="tut-menu-num">07</span> MongoDB CRUD · Node.js</a>
-                <a href="#tailwind-card"><span class="tut-menu-num">08</span> Responsive Card · Tailwind</a>
-                <a href="#bootstrap-navbar"><span class="tut-menu-num">09</span> Navbar · Bootstrap 5</a>
-                <a href="#flexbox-layout"><span class="tut-menu-num">10</span> Flexbox Layout · HTML/CSS</a>
-            </nav>
+            <p class="tut-sidebar-title">📚 Categories</p>
+            <p class="tut-sidebar-sub" id="totalCount">Loading…</p>
+            <nav class="tut-menu" id="catMenu"><!-- categories injected by JS --></nav>
         </aside>
         <div class="tut-backdrop" id="tutBackdrop"></div>
 
@@ -53,424 +42,22 @@
             <header class="tut-hero">
                 <p class="section-eyebrow">Learn · Build · Ship</p>
                 <h1>Code Tutorials</h1>
-                <p class="tut-hero-sub">Practical, copy-ready snippets from my everyday stack — pick a topic from the menu and hit <strong>Copy</strong> to grab the code.</p>
+                <p class="tut-hero-sub">A searchable library of <strong id="heroCount">200+</strong> practical, copy-ready snippets from my everyday stack. Search a topic, filter by tech, and hit <strong>Copy</strong> to grab the code.</p>
             </header>
 
-            <!-- 01 — Razorpay in Laravel -->
-            <article class="tut" id="razorpay-laravel">
-                <span class="tut-tag">PHP · Laravel</span>
-                <h2>How to add Razorpay Payment Gateway in Laravel</h2>
-                <p class="tut-desc">Accept online payments in Laravel using Razorpay — install the SDK, create an order, open the checkout, and verify the payment signature on your server.</p>
-
-                <h3 class="tut-step">1. Install the SDK &amp; set your keys</h3>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">bash · .env</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code># Install the official Razorpay PHP SDK
-composer require razorpay/razorpay
-
-# Add your API keys to .env (get them from the Razorpay dashboard)
-RAZORPAY_KEY=rzp_test_xxxxxxxxxxxxx
-RAZORPAY_SECRET=your_secret_key_here</code></pre>
+            <!-- Search + active filter -->
+            <div class="tut-toolbar">
+                <div class="tut-search">
+                    <span class="tut-search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search 200+ tutorials… e.g. 'JWT', 'flexbox', 'useEffect'">
+                    <button class="tut-search-clear" id="searchClear" aria-label="Clear search" hidden>×</button>
                 </div>
+                <p class="tut-result-count" id="resultCount"></p>
+            </div>
 
-                <h3 class="tut-step">2. Add routes</h3>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">routes/web.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>use App\Http\Controllers\PaymentController;
-
-Route::get('/pay', [PaymentController::class, 'checkout']);
-Route::post('/payment/verify', [PaymentController::class, 'verify'])->name('payment.verify');</code></pre>
-                </div>
-
-                <h3 class="tut-step">3. Create the controller</h3>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">app/Http/Controllers/PaymentController.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Razorpay\Api\Api;
-
-class PaymentController extends Controller
-{
-    public function checkout()
-    {
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-
-        $order = $api->order->create([
-            'receipt'  => 'rcpt_' . uniqid(),
-            'amount'   => 500 * 100,       // amount in paise (= ₹500)
-            'currency' => 'INR',
-        ]);
-
-        return view('checkout', [
-            'orderId' => $order['id'],
-            'amount'  => $order['amount'],
-            'key'     => env('RAZORPAY_KEY'),
-        ]);
-    }
-
-    public function verify(Request $request)
-    {
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-
-        try {
-            $api->utility->verifyPaymentSignature([
-                'razorpay_order_id'   => $request->razorpay_order_id,
-                'razorpay_payment_id' => $request->razorpay_payment_id,
-                'razorpay_signature'  => $request->razorpay_signature,
-            ]);
-
-            return 'Payment successful and verified!';
-        } catch (\Exception $e) {
-            return 'Payment verification failed: ' . $e->getMessage();
-        }
-    }
-}</code></pre>
-                </div>
-
-                <h3 class="tut-step">4. Build the checkout view</h3>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">resources/views/checkout.blade.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;form action="{{ route('payment.verify') }}" method="POST" id="rzp-form"&gt;
-    @csrf
-    &lt;input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id"&gt;
-    &lt;input type="hidden" name="razorpay_order_id" id="razorpay_order_id"&gt;
-    &lt;input type="hidden" name="razorpay_signature" id="razorpay_signature"&gt;
-&lt;/form&gt;
-
-&lt;script src="https://checkout.razorpay.com/v1/checkout.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-    const options = {
-        key: "{{ $key }}",
-        amount: "{{ $amount }}",
-        currency: "INR",
-        name: "My Company",
-        description: "Test Transaction",
-        order_id: "{{ $orderId }}",
-        handler: function (response) {
-            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
-            document.getElementById('razorpay_order_id').value  = response.razorpay_order_id;
-            document.getElementById('razorpay_signature').value = response.razorpay_signature;
-            document.getElementById('rzp-form').submit();
-        },
-        theme: { color: "#7c5cff" }
-    };
-    new Razorpay(options).open();
-&lt;/script&gt;</code></pre>
-                </div>
-            </article>
-
-            <!-- 02 — JWT CodeIgniter -->
-            <article class="tut" id="jwt-codeigniter">
-                <span class="tut-tag">PHP · CodeIgniter 4</span>
-                <h2>JWT Authentication in CodeIgniter 4</h2>
-                <p class="tut-desc">Issue a signed JSON Web Token on login using <code>firebase/php-jwt</code> — the same approach I used to secure the TaskOps API.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">app/Controllers/Api/Auth.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;?php
-// composer require firebase/php-jwt
-
-namespace App\Controllers\Api;
-
-use CodeIgniter\RESTful\ResourceController;
-use Firebase\JWT\JWT;
-use App\Models\UserModel;
-
-class Auth extends ResourceController
-{
-    public function login()
-    {
-        $json = $this->request->getJSON();
-        $user = (new UserModel())->where('email', $json->email)->first();
-
-        if (! $user || ! password_verify($json->password, $user['password'])) {
-            return $this->failUnauthorized('Invalid credentials');
-        }
-
-        $payload = [
-            'iss' => base_url(),
-            'sub' => $user['id'],
-            'iat' => time(),
-            'exp' => time() + 3600,        // expires in 1 hour
-        ];
-
-        $token = JWT::encode($payload, getenv('JWT_SECRET'), 'HS256');
-
-        return $this->respond(['token' => $token, 'user' => $user]);
-    }
-}</code></pre>
-                </div>
-            </article>
-
-            <!-- 03 — REST CodeIgniter -->
-            <article class="tut" id="rest-codeigniter">
-                <span class="tut-tag">PHP · REST API</span>
-                <h2>Build a REST API in CodeIgniter 4</h2>
-                <p class="tut-desc">A full CRUD resource controller with JSON responses and correct HTTP status codes.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">app/Controllers/Api/Tasks.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;?php
-
-namespace App\Controllers\Api;
-
-use CodeIgniter\RESTful\ResourceController;
-use App\Models\TaskModel;
-
-class Tasks extends ResourceController
-{
-    protected $modelName = TaskModel::class;
-    protected $format    = 'json';
-
-    // GET /api/tasks
-    public function index()
-    {
-        return $this->respond($this->model->findAll());
-    }
-
-    // GET /api/tasks/1
-    public function show($id = null)
-    {
-        $task = $this->model->find($id);
-        return $task ? $this->respond($task) : $this->failNotFound('Task not found');
-    }
-
-    // POST /api/tasks
-    public function create()
-    {
-        $data = $this->request->getJSON(true);
-        $id   = $this->model->insert($data);
-        return $this->respondCreated(array_merge(['id' => $id], $data));
-    }
-
-    // PUT /api/tasks/1
-    public function update($id = null)
-    {
-        $this->model->update($id, $this->request->getJSON(true));
-        return $this->respond(['updated' => true]);
-    }
-
-    // DELETE /api/tasks/1
-    public function delete($id = null)
-    {
-        $this->model->delete($id);
-        return $this->respondDeleted(['deleted' => true]);
-    }
-}</code></pre>
-                </div>
-            </article>
-
-            <!-- 04 — React fetch -->
-            <article class="tut" id="react-fetch">
-                <span class="tut-tag">JavaScript · React</span>
-                <h2>Data Fetching in React with Hooks</h2>
-                <p class="tut-desc">Load data from an API using <code>useState</code> and <code>useEffect</code>, with loading state handled cleanly.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">TaskList.jsx</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>import { useState, useEffect } from 'react';
-
-export default function TaskList() {
-  const [tasks, setTasks]     = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('https://api.example.com/tasks')
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  if (loading) return &lt;p&gt;Loading…&lt;/p&gt;;
-
-  return (
-    &lt;ul&gt;
-      {tasks.map((task) => (
-        &lt;li key={task.id}&gt;{task.title}&lt;/li&gt;
-      ))}
-    &lt;/ul&gt;
-  );
-}</code></pre>
-                </div>
-            </article>
-
-            <!-- 05 — React Native -->
-            <article class="tut" id="react-native-list">
-                <span class="tut-tag">React Native</span>
-                <h2>Render an API List in React Native</h2>
-                <p class="tut-desc">Fetch from a REST API and display the results in a performant <code>FlatList</code> with a loading spinner.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">Tasks.js</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-
-export default function Tasks() {
-  const [tasks, setTasks]     = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('https://api.example.com/tasks')
-      .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return &lt;ActivityIndicator size="large" /&gt;;
-
-  return (
-    &lt;FlatList
-      data={tasks}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        &lt;View style={{ padding: 16 }}&gt;
-          &lt;Text style={{ fontSize: 16 }}&gt;{item.title}&lt;/Text&gt;
-        &lt;/View&gt;
-      )}
-    /&gt;
-  );
-}</code></pre>
-                </div>
-            </article>
-
-            <!-- 06 — MySQL PDO -->
-            <article class="tut" id="mysql-crud">
-                <span class="tut-tag">MySQL · PHP PDO</span>
-                <h2>MySQL CRUD with PHP PDO (prepared statements)</h2>
-                <p class="tut-desc">Safe Create / Read / Update / Delete queries using prepared statements to prevent SQL injection.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">db.php</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;?php
-$pdo = new PDO('mysql:host=localhost;dbname=taskops', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-]);
-
-// CREATE
-$stmt = $pdo->prepare('INSERT INTO tasks (title, status) VALUES (?, ?)');
-$stmt->execute(['Design homepage', 'open']);
-
-// READ
-$tasks = $pdo->query('SELECT * FROM tasks')->fetchAll(PDO::FETCH_ASSOC);
-
-// UPDATE
-$stmt = $pdo->prepare('UPDATE tasks SET status = ? WHERE id = ?');
-$stmt->execute(['done', 1]);
-
-// DELETE
-$stmt = $pdo->prepare('DELETE FROM tasks WHERE id = ?');
-$stmt->execute([1]);</code></pre>
-                </div>
-            </article>
-
-            <!-- 07 — MongoDB -->
-            <article class="tut" id="mongodb-crud">
-                <span class="tut-tag">MongoDB · Node.js</span>
-                <h2>MongoDB CRUD with Mongoose</h2>
-                <p class="tut-desc">Connect to MongoDB and run CRUD operations with a Mongoose schema in Node.js.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">tasks.js</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>const mongoose = require('mongoose');
-
-await mongoose.connect('mongodb://127.0.0.1:27017/taskops');
-
-const Task = mongoose.model('Task', new mongoose.Schema({
-  title:  String,
-  status: { type: String, default: 'open' },
-}));
-
-// CREATE
-const task = await Task.create({ title: 'Write docs' });
-
-// READ
-const tasks = await Task.find();
-
-// UPDATE
-await Task.findByIdAndUpdate(task._id, { status: 'done' });
-
-// DELETE
-await Task.findByIdAndDelete(task._id);</code></pre>
-                </div>
-            </article>
-
-            <!-- 08 — Tailwind -->
-            <article class="tut" id="tailwind-card">
-                <span class="tut-tag">CSS · Tailwind</span>
-                <h2>Responsive Pricing Card with Tailwind CSS</h2>
-                <p class="tut-desc">A clean, responsive pricing card built entirely with Tailwind utility classes.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">card.html</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;div class="max-w-sm mx-auto bg-white rounded-2xl shadow-lg p-8"&gt;
-  &lt;h3 class="text-xl font-bold text-gray-800"&gt;Pro Plan&lt;/h3&gt;
-  &lt;p class="mt-2 text-gray-500"&gt;Everything you need to scale.&lt;/p&gt;
-  &lt;p class="mt-4 text-4xl font-extrabold text-gray-900"&gt;
-    $29&lt;span class="text-base font-medium text-gray-500"&gt;/mo&lt;/span&gt;
-  &lt;/p&gt;
-  &lt;button class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700
-                 text-white font-semibold py-3 rounded-xl transition"&gt;
-    Get Started
-  &lt;/button&gt;
-&lt;/div&gt;</code></pre>
-                </div>
-            </article>
-
-            <!-- 09 — Bootstrap -->
-            <article class="tut" id="bootstrap-navbar">
-                <span class="tut-tag">CSS · Bootstrap 5</span>
-                <h2>Responsive Navbar with Bootstrap 5</h2>
-                <p class="tut-desc">A collapsible, mobile-friendly navigation bar using Bootstrap 5 components.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">navbar.html</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark"&gt;
-  &lt;div class="container"&gt;
-    &lt;a class="navbar-brand" href="#"&gt;MyApp&lt;/a&gt;
-    &lt;button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#nav"&gt;
-      &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
-    &lt;/button&gt;
-    &lt;div class="collapse navbar-collapse" id="nav"&gt;
-      &lt;ul class="navbar-nav ms-auto"&gt;
-        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
-        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/nav&gt;</code></pre>
-                </div>
-            </article>
-
-            <!-- 10 — Flexbox -->
-            <article class="tut" id="flexbox-layout">
-                <span class="tut-tag">HTML · CSS</span>
-                <h2>Responsive Layout with CSS Flexbox</h2>
-                <p class="tut-desc">Cards that flow into rows and wrap automatically on smaller screens — no media queries needed.</p>
-                <div class="code-block">
-                    <div class="code-head"><span class="code-lang">layout.html</span><button class="copy-btn" type="button">Copy</button></div>
-<pre><code>&lt;div class="cards"&gt;
-  &lt;div class="card"&gt;One&lt;/div&gt;
-  &lt;div class="card"&gt;Two&lt;/div&gt;
-  &lt;div class="card"&gt;Three&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;style&gt;
-  .cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .card {
-    flex: 1 1 250px;          /* grow, shrink, min-width 250px */
-    padding: 2rem;
-    border-radius: 12px;
-    background: #7c5cff;
-    color: #fff;
-    text-align: center;
-  }
-&lt;/style&gt;</code></pre>
-                </div>
-            </article>
+            <!-- Results grid -->
+            <div class="tut-grid" id="tutGrid"><!-- cards injected by JS --></div>
+            <p class="tut-empty" id="tutEmpty" hidden>No tutorials match your search. Try another keyword.</p>
 
             <p class="tut-foot">More projects &amp; code on my <a href="https://github.com/Dipak080" target="_blank" rel="noopener">GitHub →</a></p>
         </main>
@@ -478,6 +65,7 @@ await Task.findByIdAndDelete(task._id);</code></pre>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
+    <script src="tutorials-data.js"></script>
     <script src="tutorials.js"></script>
 </body>
 </html>

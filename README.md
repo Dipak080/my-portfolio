@@ -10,7 +10,7 @@ A modern, responsive personal portfolio showcasing my work as a **Full-Stack Dev
 - Scroll-reveal animations & scroll progress bar
 - Fully responsive (mobile nav, fluid layouts)
 - Featured project showcase (**TaskOps**) with UI mockup
-- **Tutorials page** — 10 hands-on code guides (Laravel/Razorpay, CodeIgniter, JWT, REST, React, React Native, MySQL, MongoDB, Tailwind, Bootstrap, HTML/CSS) with one-click **copy** buttons and a sticky sidebar menu
+- **Tutorials library** — a searchable, filterable collection of **200+ copy-ready code tutorials** across 15 topics (PHP, Laravel, CodeIgniter, REST/JWT, JavaScript, React, React Native, Node.js, MySQL, MongoDB, HTML, CSS, Tailwind, Bootstrap, Git) with live search, category filters and per-snippet **copy** buttons. Data-driven from [tutorials-data.js](tutorials-data.js)
 - Working contact form (mailto)
 - Zero dependencies — pure HTML, CSS & JavaScript
 
