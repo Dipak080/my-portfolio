@@ -6,7 +6,6 @@ A modern, responsive personal portfolio showcasing my work as a **Full-Stack Dev
 
 ## ✨ Features
 - Premium dark UI with gradient accents & glassmorphism
-- **Interactive guided menu tutorial** — spotlight tour of the navigation (auto-runs on first visit, replay via the floating `?` button; keyboard + skip support)
 - Animated hero with typing effect and animated stat counters
 - Scroll-reveal animations & scroll progress bar
 - Fully responsive (mobile nav, fluid layouts)
