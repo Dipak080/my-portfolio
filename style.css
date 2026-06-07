@@ -262,7 +262,7 @@ section { padding: clamp(4rem, 9vw, 7rem) clamp(1.2rem, 5vw, 2rem); position: re
 .contact .section-title { margin-left: auto; margin-right: auto; }
 .contact-subtitle { color: var(--text-dim); max-width: 560px; margin: 0 auto 1.8rem; font-size: 1.08rem; }
 .contact-subtitle strong { color: var(--text); }
-.contact-actions { margin-bottom: 2.6rem; }
+.contact-actions { margin-bottom: 2.6rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .contact-form { max-width: 600px; margin: 0 auto; text-align: left; }
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .input-group { margin-bottom: 1.1rem; display: flex; flex-direction: column; }

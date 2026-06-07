@@ -2,7 +2,8 @@
 
 A modern, responsive personal portfolio showcasing my work as a **Full-Stack Developer**.
 
-🔗 **Live site:** enable GitHub Pages (Settings → Pages → Branch: `main` → `/root`)
+🔗 **Live site:** https://dipak080.github.io/my-portfolio/
+*(enable once via Settings → Pages → Branch: `main` → `/root`)*
 
 ## ✨ Features
 - Premium dark UI with gradient accents & glassmorphism
