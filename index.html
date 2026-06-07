@@ -3,123 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <meta name="description" content="Personal portfolio showcasing my software engineering projects and skills.">
+    <title>Dipak Barman — Full-Stack Developer</title>
+    <meta name="description" content="Dipak Barman — Full-Stack Developer specializing in PHP/CodeIgniter, React, React Native, REST APIs and scalable multi-tenant SaaS applications.">
+    <meta name="author" content="Dipak Barman">
+    <meta property="og:title" content="Dipak Barman — Full-Stack Developer">
+    <meta property="og:description" content="I design and build scalable web & mobile applications, from secure REST APIs to polished interfaces.">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">Portfolio.</div>
-        <ul class="nav-links">
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="logo">Dipak<span>.</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="mailto:dipakbarman080@gmail.com" class="nav-cta">Hire Me</a></li>
         </ul>
     </nav>
 
     <main>
+        <!-- Hero -->
         <section id="home" class="hero">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
             <div class="hero-content">
-                <h1 class="hero-title">Hi, I'm a <span class="highlight">Developer</span></h1>
-                <p class="hero-subtitle">I build premium, responsive, and dynamic web experiences.</p>
-                <div class="hero-actions">
+                <p class="hero-eyebrow reveal">👋 Hi there, I'm</p>
+                <h1 class="hero-title reveal">Dipak Barman</h1>
+                <h2 class="hero-role reveal">
+                    <span class="static-text">A </span><span class="typed" id="typed"></span><span class="cursor">|</span>
+                </h2>
+                <p class="hero-subtitle reveal">
+                    I design and build <strong>scalable web &amp; mobile applications</strong> — from secure
+                    REST APIs and multi-tenant SaaS backends to polished, responsive interfaces.
+                </p>
+                <div class="hero-actions reveal">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                    <a href="mailto:dipakbarman080@gmail.com" class="btn btn-secondary">Hire Me →</a>
+                </div>
+                <div class="hero-stats reveal">
+                    <div class="stat"><span class="stat-num" data-count="20">0</span><span class="stat-label">REST Endpoints Built</span></div>
+                    <div class="stat"><span class="stat-num" data-count="10">0</span><span class="stat-label">Technologies</span></div>
+                    <div class="stat"><span class="stat-num" data-count="100">0</span><span class="stat-label">% Passion for Code</span></div>
                 </div>
             </div>
-            <div class="hero-background"></div>
+            <a href="#about" class="scroll-down" aria-label="Scroll down"><span></span></a>
         </section>
 
+        <!-- About -->
         <section id="about" class="about">
             <div class="section-container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>I am a passionate software engineer focused on crafting clean & user-friendly experiences. I love transforming complex problems into simple, beautiful, and intuitive designs.</p>
-                        <p>When I'm not coding, you'll find me exploring new technologies, contributing to open source, or enjoying a good book.</p>
+                <p class="section-eyebrow reveal">01 — About</p>
+                <h2 class="section-title reveal">Turning ideas into <span class="highlight">working software</span></h2>
+                <div class="about-grid">
+                    <div class="about-text reveal">
+                        <p>I'm a <strong>Full-Stack Developer</strong> who enjoys owning a product end to end — modelling the
+                            database, designing a clean REST API, securing it with JWT, and wiring it up to a fast,
+                            intuitive frontend.</p>
+                        <p>My recent flagship project, <strong>TaskOps</strong>, is a multi-tenant task-management platform
+                            with role-based permissions, company isolation, task workflows, file attachments, and
+                            real-time-style notifications — built with CodeIgniter 4 on the backend.</p>
+                        <p>I care about clean architecture, reusable components, and writing code that the next
+                            developer (often future me) will thank me for.</p>
+                        <ul class="about-list">
+                            <li>🧩 Full product ownership — backend, frontend &amp; database</li>
+                            <li>🔐 Security-first APIs (JWT auth, role &amp; permission systems)</li>
+                            <li>📱 Web &amp; mobile (React + React Native)</li>
+                            <li>🚀 Always learning, always shipping</li>
+                        </ul>
                     </div>
-                    <div class="skills">
-                        <span class="skill-tag">HTML5</span>
-                        <span class="skill-tag">CSS3</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Git</span>
+                    <div class="about-card reveal">
+                        <div class="terminal">
+                            <div class="terminal-bar">
+                                <span></span><span></span><span></span>
+                                <p class="terminal-title">dipak — bash</p>
+                            </div>
+                            <pre class="terminal-body"><code><span class="tok-c">// developer.js</span>
+<span class="tok-k">const</span> <span class="tok-v">dipak</span> = {
+  role: <span class="tok-s">"Full-Stack Developer"</span>,
+  stack: [<span class="tok-s">"PHP"</span>, <span class="tok-s">"React"</span>, <span class="tok-s">"Node"</span>],
+  databases: [<span class="tok-s">"MySQL"</span>, <span class="tok-s">"MongoDB"</span>],
+  focus: <span class="tok-s">"Scalable SaaS &amp; APIs"</span>,
+  status: <span class="tok-s">"Open to work ✅"</span>,
+};</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Skills -->
+        <section id="skills" class="skills">
+            <div class="section-container">
+                <p class="section-eyebrow reveal">02 — Tech Stack</p>
+                <h2 class="section-title reveal">Tools I build with</h2>
+                <div class="skills-grid">
+                    <div class="skill-group reveal">
+                        <h3>Backend</h3>
+                        <div class="chips">
+                            <span class="chip">PHP</span>
+                            <span class="chip">CodeIgniter</span>
+                            <span class="chip">REST APIs</span>
+                            <span class="chip">JWT Auth</span>
+                            <span class="chip">Node.js</span>
+                        </div>
+                    </div>
+                    <div class="skill-group reveal">
+                        <h3>Frontend</h3>
+                        <div class="chips">
+                            <span class="chip">JavaScript</span>
+                            <span class="chip">React</span>
+                            <span class="chip">React Native</span>
+                            <span class="chip">HTML5</span>
+                            <span class="chip">CSS3</span>
+                            <span class="chip">Tailwind</span>
+                            <span class="chip">Bootstrap</span>
+                        </div>
+                    </div>
+                    <div class="skill-group reveal">
+                        <h3>Databases</h3>
+                        <div class="chips">
+                            <span class="chip">MySQL</span>
+                            <span class="chip">MongoDB</span>
+                        </div>
+                    </div>
+                    <div class="skill-group reveal">
+                        <h3>Tools &amp; Practices</h3>
+                        <div class="chips">
+                            <span class="chip">Git &amp; GitHub</span>
+                            <span class="chip">Composer</span>
+                            <span class="chip">PHPUnit</span>
+                            <span class="chip">Multi-tenancy</span>
+                            <span class="chip">RBAC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
         <section id="projects" class="projects">
             <div class="section-container">
-                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-eyebrow reveal">03 — Work</p>
+                <h2 class="section-title reveal">Featured Projects</h2>
+
+                <!-- Featured project: TaskOps -->
+                <article class="project-feature reveal">
+                    <div class="project-feature-visual">
+                        <div class="browser">
+                            <div class="browser-bar"><span></span><span></span><span></span><p>taskops.app</p></div>
+                            <div class="browser-body">
+                                <div class="mock-sidebar">
+                                    <div class="mock-logo">TaskOps</div>
+                                    <div class="mock-nav-item active"></div>
+                                    <div class="mock-nav-item"></div>
+                                    <div class="mock-nav-item"></div>
+                                    <div class="mock-nav-item"></div>
+                                </div>
+                                <div class="mock-main">
+                                    <div class="mock-row">
+                                        <div class="mock-kpi"></div>
+                                        <div class="mock-kpi"></div>
+                                        <div class="mock-kpi"></div>
+                                    </div>
+                                    <div class="mock-board">
+                                        <div class="mock-col"><div class="mock-task"></div><div class="mock-task"></div></div>
+                                        <div class="mock-col"><div class="mock-task"></div></div>
+                                        <div class="mock-col"><div class="mock-task"></div><div class="mock-task"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-feature-info">
+                        <span class="project-badge">⭐ Flagship Project</span>
+                        <h3>TaskOps — Multi-Tenant Task Management SaaS</h3>
+                        <p>A complete task-operations platform where multiple companies manage teams, tasks and
+                            workflows in full isolation. I built the entire backend — a secure REST API powering
+                            authentication, role-based permissions, task lifecycles, comments, checklists,
+                            attachments, notifications and end-of-day reporting.</p>
+                        <ul class="feature-points">
+                            <li>🏢 <strong>Multi-tenant architecture</strong> — isolated data per company</li>
+                            <li>🔐 <strong>JWT authentication</strong> + OTP-based registration</li>
+                            <li>🛡️ <strong>Granular RBAC</strong> — roles, pages &amp; permissions</li>
+                            <li>✅ <strong>Task workflows</strong> — transitions, transfers, checklists, activity logs</li>
+                            <li>📎 File attachments, 🔔 notifications &amp; 📊 EOD reports</li>
+                        </ul>
+                        <div class="tech-row">
+                            <span>CodeIgniter 4</span><span>PHP 8.2</span><span>MySQL</span>
+                            <span>JWT</span><span>REST API</span><span>PHPUnit</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Other projects grid -->
                 <div class="projects-grid">
-                    <article class="project-card fade-in">
-                        <div class="project-image" style="background: linear-gradient(135deg, #FF6B6B, #556270);"></div>
-                        <div class="project-info">
-                            <h3>E-Commerce Platform</h3>
-                            <p>A full-stack e-commerce solution with dynamic routing and Stripe integration.</p>
-                            <div class="project-links">
-                                <a href="#" class="link">Live Demo &rarr;</a>
-                                <a href="#" class="link">GitHub &rarr;</a>
-                            </div>
+                    <article class="project-card reveal">
+                        <div class="project-icon">📱</div>
+                        <h3>Mobile App (React Native)</h3>
+                        <p>Cross-platform mobile client that consumes REST APIs, with authentication, task views and
+                            push-style notifications.</p>
+                        <div class="tech-row small">
+                            <span>React Native</span><span>JavaScript</span><span>REST</span>
                         </div>
                     </article>
-                    <article class="project-card fade-in">
-                        <div class="project-image" style="background: linear-gradient(135deg, #00C9FF, #92FE9D);"></div>
-                        <div class="project-info">
-                            <h3>Analytics Dashboard</h3>
-                            <p>Real-time data visualization dashboard utilizing D3.js and modern CSS grid.</p>
-                            <div class="project-links">
-                                <a href="#" class="link">Live Demo &rarr;</a>
-                                <a href="#" class="link">GitHub &rarr;</a>
-                            </div>
+                    <article class="project-card reveal">
+                        <div class="project-icon">📊</div>
+                        <h3>Admin Dashboard</h3>
+                        <p>Responsive admin panel for managing companies, users, roles and reports — built with React,
+                            Tailwind &amp; Bootstrap components.</p>
+                        <div class="tech-row small">
+                            <span>React</span><span>Tailwind</span><span>Bootstrap</span>
                         </div>
                     </article>
-                    <article class="project-card fade-in">
-                        <div class="project-image" style="background: linear-gradient(135deg, #667EEA, #764BA2);"></div>
-                        <div class="project-info">
-                            <h3>Social Media App</h3>
-                            <p>A responsive social platform with real-time messaging and user authentication.</p>
-                            <div class="project-links">
-                                <a href="#" class="link">Live Demo &rarr;</a>
-                                <a href="#" class="link">GitHub &rarr;</a>
-                            </div>
+                    <article class="project-card reveal">
+                        <div class="project-icon">🔌</div>
+                        <h3>REST API Toolkit</h3>
+                        <p>Reusable API foundation: JWT middleware, validation, CORS handling, pagination and a clean
+                            controller/model structure.</p>
+                        <div class="tech-row small">
+                            <span>PHP</span><span>CodeIgniter</span><span>JWT</span>
                         </div>
                     </article>
                 </div>
+
+                <p class="projects-cta reveal">
+                    More on my <a href="https://github.com/Dipak080" target="_blank" rel="noopener">GitHub →</a>
+                </p>
             </div>
         </section>
 
+        <!-- Contact -->
         <section id="contact" class="contact">
             <div class="section-container">
-                <h2 class="section-title">Let's Connect</h2>
-                <p class="contact-subtitle">I'm currently looking for new opportunities. My inbox is always open.</p>
-                <form class="contact-form">
-                    <div class="input-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" placeholder="John Doe" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="john@example.com" required>
+                <p class="section-eyebrow reveal">04 — Contact</p>
+                <h2 class="section-title reveal">Let's build something great</h2>
+                <p class="contact-subtitle reveal">
+                    I'm currently <strong>open to new opportunities</strong>. If you're hiring a full-stack developer
+                    who ships, my inbox is always open.
+                </p>
+                <div class="contact-actions reveal">
+                    <a href="mailto:dipakbarman080@gmail.com" class="btn btn-primary btn-lg">✉️ dipakbarman080@gmail.com</a>
+                </div>
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="you@company.com" required>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label for="message">Message</label>
-                        <textarea id="message" rows="5" placeholder="Hello!" required></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell me about the role or project..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                    <p class="form-note" id="formNote"></p>
                 </form>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 My Portfolio. Designed and Built with passion.</p>
+        <div class="footer-inner">
+            <a href="#home" class="logo">Dipak<span>.</span></a>
+            <p>Designed &amp; built by Dipak Barman · © <span id="year"></span></p>
+            <div class="footer-links">
+                <a href="https://github.com/Dipak080" target="_blank" rel="noopener">GitHub</a>
+                <a href="mailto:dipakbarman080@gmail.com">Email</a>
+            </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
