@@ -284,6 +284,58 @@ footer { border-top: 1px solid var(--border); padding: 2.2rem clamp(1.2rem, 5vw,
 .footer-links a { color: var(--text-dim); font-size: 0.9rem; transition: color 0.2s; }
 .footer-links a:hover { color: var(--accent-2); }
 
+/* ---------- Guided menu tutorial ---------- */
+.tour-fab {
+    position: fixed; bottom: 26px; right: 26px; z-index: 940;
+    width: 54px; height: 54px; border-radius: 50%; border: none; cursor: pointer;
+    background: var(--grad); color: #fff; font-size: 1.5rem; font-weight: 700;
+    box-shadow: 0 10px 30px rgba(124, 92, 255, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: fabPulse 2.6s ease-in-out infinite;
+}
+.tour-fab:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 40px rgba(124, 92, 255, 0.6); }
+@keyframes fabPulse {
+    0%, 100% { box-shadow: 0 10px 30px rgba(124, 92, 255, 0.45); }
+    50% { box-shadow: 0 10px 30px rgba(124, 92, 255, 0.45), 0 0 0 12px rgba(124, 92, 255, 0.08); }
+}
+
+.tour-overlay {
+    position: fixed; inset: 0; z-index: 1100; pointer-events: none;
+    opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+.tour-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+/* Spotlight uses a huge box-shadow to dim everything except the cutout */
+.tour-spotlight {
+    position: absolute; border-radius: 12px; pointer-events: none;
+    box-shadow: 0 0 0 9999px rgba(6, 6, 12, 0.82);
+    border: 2px solid var(--accent-2);
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0; height: 0; top: 50%; left: 50%;
+}
+
+.tour-tooltip {
+    position: absolute; width: min(320px, calc(100vw - 32px));
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.3rem 1.4rem; box-shadow: var(--shadow);
+    transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1), left 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tour-step-count { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--accent-2); letter-spacing: 1px; margin-bottom: 0.4rem; }
+.tour-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.tour-text { font-size: 0.92rem; color: var(--text-dim); margin-bottom: 1.1rem; line-height: 1.55; }
+.tour-controls { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.tour-nav { display: flex; gap: 0.5rem; }
+.tour-skip, .tour-prev, .tour-next {
+    font-family: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer;
+    padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-dim); transition: all 0.2s;
+}
+.tour-skip:hover, .tour-prev:hover { color: var(--text); border-color: var(--text-mute); }
+.tour-next { background: var(--grad); color: #fff; border-color: transparent; }
+.tour-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(124, 92, 255, 0.4); }
+.tour-prev:disabled { opacity: 0.4; cursor: not-allowed; }
+
 /* ---------- Reveal animation ---------- */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
