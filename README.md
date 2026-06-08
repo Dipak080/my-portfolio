@@ -14,7 +14,7 @@ A modern, responsive personal portfolio showcasing my work as a **Full-Stack Dev
 - Featured project showcase (**TaskOps**) with UI mockup
 - **Tutorials library** — a searchable, filterable collection of **200+ copy-ready code tutorials** across 15 topics (PHP, Laravel, CodeIgniter, REST/JWT, JavaScript, React, React Native, Node.js, MySQL, MongoDB, HTML, CSS, Tailwind, Bootstrap, Git) with live search, category filters and per-snippet **copy** buttons. Data-driven from [tutorials-data.js](tutorials-data.js)
 - **Git Tutorial page** — a searchable reference of the most important Git commands grouped by task, each with a plain-English explanation of what it actually does, plus copy buttons. Data-driven from [git-data.js](git-data.js)
-- **Interview Q&A page** — 100+ category-wise top interview questions with concise answers (JavaScript, React, React Native, Node.js, PHP, Laravel, CodeIgniter, MySQL, MongoDB, REST/JWT, HTML/CSS, Git and HR rounds), with search, filters and expand/collapse. Data-driven from [interview-data.js](interview-data.js)
+- **Interview Q&A page** — **390 category-wise interview questions** (30 each across JavaScript, React, React Native, Node.js, PHP, Laravel, CodeIgniter, MySQL, MongoDB, REST/JWT, HTML/CSS, Git and HR rounds) with concise answers, live search, category filters and expand/collapse. Data-driven from [interview-data.js](interview-data.js)
 - Downloadable resume + working contact form (mailto)
 - Zero dependencies — pure HTML, CSS & JavaScript
 
