@@ -2,8 +2,9 @@
 
 A modern, responsive personal portfolio showcasing my work as a **Full-Stack Developer**.
 
-🔗 **Live site:** https://dipak080.github.io/my-portfolio/
-*(enable once via Settings → Pages → Branch: `main` → `/root`)*
+🌐 **Website:** file:///C:/Users/React/Desktop/portfolio/index.html
+
+📄 **Download my resume:** [Dipak_Barman_Resume.pdf](Dipak_Barman_Resume.pdf)
 
 ## ✨ Features
 - Premium dark UI with gradient accents & glassmorphism
@@ -12,7 +13,8 @@ A modern, responsive personal portfolio showcasing my work as a **Full-Stack Dev
 - Fully responsive (mobile nav, fluid layouts)
 - Featured project showcase (**TaskOps**) with UI mockup
 - **Tutorials library** — a searchable, filterable collection of **200+ copy-ready code tutorials** across 15 topics (PHP, Laravel, CodeIgniter, REST/JWT, JavaScript, React, React Native, Node.js, MySQL, MongoDB, HTML, CSS, Tailwind, Bootstrap, Git) with live search, category filters and per-snippet **copy** buttons. Data-driven from [tutorials-data.js](tutorials-data.js)
-- Working contact form (mailto)
+- **Git Tutorial page** — a searchable reference of the most important Git commands grouped by task, each with a plain-English explanation of what it actually does, plus copy buttons. Data-driven from [git-data.js](git-data.js)
+- Downloadable resume + working contact form (mailto)
 - Zero dependencies — pure HTML, CSS & JavaScript
 
 ## 🧰 Tech Stack
@@ -34,4 +36,5 @@ python -m http.server 8000
 
 ## 📫 Contact
 - **Email:** dipakbarman080@gmail.com
-- **GitHub:** [@Dipak080](https://github.com/Dipak080)
+- **Resume:** [Download PDF](Dipak_Barman_Resume.pdf)
+- **Website:** file:///C:/Users/React/Desktop/portfolio/index.html

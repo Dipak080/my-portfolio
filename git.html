@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorials — Dipak Barman</title>
-    <meta name="description" content="200+ hands-on code tutorials by Dipak Barman across PHP, Laravel, CodeIgniter, REST APIs, JWT, React, React Native, Node.js, MySQL, MongoDB, Tailwind, Bootstrap and more — searchable, filterable, copy-ready.">
+    <title>Git Tutorial — Dipak Barman</title>
+    <meta name="description" content="A practical Git command reference by Dipak Barman — the most important Git commands grouped by task, each with a plain-English explanation of what it actually does. Searchable and copy-ready.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="tutorials.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>">
+    <link rel="stylesheet" href="git.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
     <div class="scroll-progress" id="scrollProgress"></div>
@@ -23,15 +24,15 @@
         </button>
         <ul class="nav-links">
             <li><a href="index.html">← Portfolio</a></li>
-            <li><a href="git.html">Git Tutorial</a></li>
+            <li><a href="tutorials.html">Tutorials</a></li>
             <li><a href="mailto:dipakbarman080@gmail.com" class="nav-cta">Hire Me</a></li>
         </ul>
     </nav>
 
     <div class="tut-layout">
-        <!-- Sidebar: category filter -->
+        <!-- Sidebar: category jump links -->
         <aside class="tut-sidebar" id="tutSidebar">
-            <p class="tut-sidebar-title">📚 Categories</p>
+            <p class="tut-sidebar-title">🌿 Git Topics</p>
             <p class="tut-sidebar-sub" id="totalCount">Loading…</p>
             <nav class="tut-menu" id="catMenu"><!-- categories injected by JS --></nav>
         </aside>
@@ -40,32 +41,32 @@
         <!-- Content -->
         <main class="tut-content">
             <header class="tut-hero">
-                <p class="section-eyebrow">Learn · Build · Ship</p>
-                <h1>Code Tutorials</h1>
-                <p class="tut-hero-sub">A searchable library of <strong id="heroCount">200+</strong> practical, copy-ready snippets from my everyday stack. Search a topic, filter by tech, and hit <strong>Copy</strong> to grab the code.</p>
+                <p class="section-eyebrow">Version Control · Cheat Sheet</p>
+                <h1>Git Tutorial</h1>
+                <p class="tut-hero-sub">The most important Git commands — grouped by task, each with a clear explanation of <strong>what it actually does</strong>. Search a command, jump by topic, and hit <strong>Copy</strong>.</p>
             </header>
 
-            <!-- Search + active filter -->
+            <!-- Search -->
             <div class="tut-toolbar">
                 <div class="tut-search">
                     <span class="tut-search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Search 200+ tutorials… e.g. 'JWT', 'flexbox', 'useEffect'">
+                    <input type="text" id="searchInput" placeholder="Search Git commands… e.g. 'rebase', 'undo', 'stash', 'branch'">
                     <button class="tut-search-clear" id="searchClear" aria-label="Clear search" hidden>×</button>
                 </div>
                 <p class="tut-result-count" id="resultCount"></p>
             </div>
 
-            <!-- Results grid -->
-            <div class="tut-grid" id="tutGrid"><!-- cards injected by JS --></div>
-            <p class="tut-empty" id="tutEmpty" hidden>No tutorials match your search. Try another keyword.</p>
+            <!-- Command sections -->
+            <div id="gitSections"><!-- injected by JS --></div>
+            <p class="tut-empty" id="tutEmpty" hidden>No commands match your search. Try another keyword.</p>
 
-            <p class="tut-foot">More projects &amp; code on my <a href="https://github.com/Dipak080" target="_blank" rel="noopener">GitHub →</a></p>
+            <p class="tut-foot">Want code tutorials too? Browse my <a href="tutorials.html">200+ tutorials →</a></p>
         </main>
     </div>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
-    <script src="tutorials-data.js"></script>
-    <script src="tutorials.js"></script>
+    <script src="git-data.js"></script>
+    <script src="git.js"></script>
 </body>
 </html>
