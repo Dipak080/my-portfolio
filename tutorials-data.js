@@ -1110,4 +1110,280 @@ git reset --soft HEAD~1     # undo last commit, keep changes` },
 *.log` },
   { cat:"Git", lang:"bash", title:"Pull & rebase", desc:"Update your branch cleanly.",
     code:`git pull --rebase origin main` },
+
+  /* ============== Docker ============== */
+  { cat:"Docker", lang:"text", title:"What is Docker & why use it?", desc:"Why: it packages your app with its exact dependencies into a 'container' that runs identically on any machine — ending 'but it works on my computer' bugs.",
+    code:`Docker basics:
+- Image      = a blueprint of your app + dependencies
+- Container  = a running instance of an image
+- Dockerfile = the recipe that builds an image
+- Registry   = where images are stored (e.g. Docker Hub)
+
+Why teams use it:
+- Same environment in dev, test and production
+- Fast, isolated, disposable setups
+- Easy to scale and deploy anywhere` },
+  { cat:"Docker", lang:"bash", title:"Install & verify Docker", desc:"Why: confirm the Docker engine is running before building anything.",
+    code:`docker --version          # check it's installed
+docker run hello-world    # pulls & runs a test container
+docker info               # engine details` },
+  { cat:"Docker", lang:"dockerfile", title:"Write a Dockerfile (Node.js)", desc:"Why: the Dockerfile defines how your app is built into a portable image. Each line is a layer that Docker caches for fast rebuilds.",
+    code:`# Start from a small official Node image
+FROM node:20-alpine
+
+# Folder inside the container where code lives
+WORKDIR /app
+
+# Copy package files first so 'npm install' is cached
+COPY package*.json ./
+RUN npm install
+
+# Copy the rest of the source code
+COPY . .
+
+# Document the port and start the app
+EXPOSE 3000
+CMD ["node", "index.js"]` },
+  { cat:"Docker", lang:"dockerfile", title:"Dockerfile for PHP / Laravel", desc:"Why: ship PHP apps with the right extensions and Composer baked in, so any server can run them.",
+    code:`FROM php:8.2-fpm
+
+# Install the DB extensions Laravel needs
+RUN docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /var/www
+COPY . .
+
+# Install Composer dependencies
+RUN curl -sS https://getcomposer.org/installer | php \\
+    && php composer.phar install --no-dev --optimize-autoloader
+
+CMD ["php-fpm"]` },
+  { cat:"Docker", lang:"bash", title:"Build an image", desc:"Why: turns your Dockerfile into a runnable image. The -t flag names (tags) it.",
+    code:`docker build -t myapp .
+# -t myapp  = name the image 'myapp'
+# .         = build context (current folder)` },
+  { cat:"Docker", lang:"bash", title:"Run a container", desc:"Why: starts your image as a live container and maps a host port to the container port so you can reach it.",
+    code:`docker run -p 3000:3000 myapp
+# -p host:container  maps localhost:3000 -> app's 3000
+
+# Run in the background with a name:
+docker run -d --name web -p 3000:3000 myapp` },
+  { cat:"Docker", lang:"bash", title:"Manage containers & images", desc:"Why: day-to-day commands to inspect, stop and clean up so your machine stays tidy.",
+    code:`docker ps             # running containers
+docker ps -a          # all containers
+docker stop web       # stop one
+docker rm web         # remove a stopped container
+docker images         # list images
+docker rmi myapp      # remove an image
+docker system prune   # clean up unused data` },
+  { cat:"Docker", lang:"bash", title:"View logs & open a shell", desc:"Why: debug a running container by streaming its logs or stepping inside it.",
+    code:`docker logs -f web        # follow the app's output
+docker exec -it web sh    # open a shell inside the container
+# (use 'bash' instead of 'sh' if the image has it)` },
+  { cat:"Docker", lang:"bash", title:"Persist data with volumes", desc:"Why: containers are disposable — a volume keeps your database/files alive even after the container is deleted.",
+    code:`docker run -d -v mydata:/app/data myapp
+# 'mydata' is a named volume mounted at /app/data
+
+docker volume ls          # list volumes
+docker volume inspect mydata` },
+  { cat:"Docker", lang:"bash", title:"Pass environment variables", desc:"Why: keep secrets and config (DB URLs, keys) out of the image and inject them at runtime.",
+    code:`docker run -e NODE_ENV=production -e PORT=3000 myapp
+
+# Or load many at once from a file:
+docker run --env-file .env myapp` },
+  { cat:"Docker", lang:"text", title:"Create a .dockerignore", desc:"Why: exclude junk from the image to make builds faster and images smaller (and avoid leaking secrets).",
+    code:`node_modules
+.git
+.env
+*.log
+dist
+vendor` },
+  { cat:"Docker", lang:"dockerfile", title:"Multi-stage build (React)", desc:"Why: build with Node, then serve the static files with tiny Nginx — the final image is small and production-ready.",
+    code:`# 1) Build stage
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# 2) Serve stage (only the built files ship)
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80` },
+  { cat:"Docker", lang:"yaml", title:"Docker Compose: app + database", desc:"Why: real apps need multiple services. Compose starts your app AND its database together with one command.",
+    code:`# docker-compose.yml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      - db
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: app
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:` },
+  { cat:"Docker", lang:"bash", title:"Docker Compose commands", desc:"Why: control your whole multi-container stack with a single tool.",
+    code:`docker compose up -d      # build & start everything (detached)
+docker compose ps         # see running services
+docker compose logs -f    # stream all logs
+docker compose down       # stop & remove containers
+docker compose down -v    # also remove volumes` },
+  { cat:"Docker", lang:"bash", title:"Connect containers with a network", desc:"Why: containers on the same network reach each other by name (e.g. the app connects to host 'db'), no IPs needed.",
+    code:`docker network create appnet
+docker run -d --network appnet --name db mysql:8
+docker run -d --network appnet --name web myapp
+# Inside 'web', the database host is simply: db` },
+  { cat:"Docker", lang:"bash", title:"Push an image to Docker Hub", desc:"Why: share your image or pull it on a server to deploy. Docker Hub is the default public registry.",
+    code:`docker login
+docker tag myapp username/myapp:1.0
+docker push username/myapp:1.0
+# On the server later:  docker pull username/myapp:1.0` },
+
+  /* ============== AWS ============== */
+  { cat:"AWS", lang:"text", title:"What is AWS & why use it?", desc:"Why: rent servers, storage and databases on demand instead of buying hardware — scale globally and pay only for what you use.",
+    code:`Core AWS services you'll meet:
+- EC2          = virtual servers (run your app)
+- S3           = file/object storage & static hosting
+- RDS          = managed SQL databases (MySQL/Postgres)
+- IAM          = users, roles & permissions (security)
+- Route 53     = DNS / connect your domain
+- CloudFront   = global CDN (fast + HTTPS)
+- Lambda       = run code with no servers (serverless)
+- ECR / ECS    = store & run Docker containers
+
+Why: reliability, global reach, and you only pay for usage.` },
+  { cat:"AWS", lang:"bash", title:"Set up the AWS CLI", desc:"Why: the CLI lets you control AWS from your terminal and automate deployments instead of clicking the console.",
+    code:`# After installing the AWS CLI:
+aws configure
+# Enter: Access Key, Secret Key, region (e.g. ap-south-1), output (json)
+
+aws sts get-caller-identity   # verify you're connected` },
+  { cat:"AWS", lang:"text", title:"Launch an EC2 server", desc:"Why: EC2 is a virtual computer in the cloud — the most common place to host a backend or full app.",
+    code:`Steps in the AWS console:
+1. EC2  >  Launch Instance
+2. Choose Ubuntu, type t2.micro (free tier)
+3. Create & download a .pem key pair (for SSH)
+4. In the security group, allow:
+      SSH (22), HTTP (80), HTTPS (443)
+5. Launch  ->  note the public IP address` },
+  { cat:"AWS", lang:"bash", title:"SSH into your EC2 instance", desc:"Why: connect securely to the server to install software and run your app.",
+    code:`chmod 400 my-key.pem          # lock down the key file
+ssh -i my-key.pem ubuntu@<EC2_PUBLIC_IP>` },
+  { cat:"AWS", lang:"bash", title:"Install Node.js on EC2", desc:"Why: prepare the server with the runtime your app needs.",
+    code:`curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs git
+node -v && npm -v` },
+  { cat:"AWS", lang:"bash", title:"Deploy a Node app with PM2", desc:"Why: PM2 keeps your app running in the background and restarts it automatically if it crashes or the server reboots.",
+    code:`git clone https://github.com/you/app.git
+cd app && npm install
+sudo npm install -g pm2
+pm2 start index.js --name web
+pm2 startup && pm2 save   # survive reboots` },
+  { cat:"AWS", lang:"nginx", title:"Put Nginx in front (reverse proxy)", desc:"Why: Nginx serves on port 80/443 and forwards traffic to your app, enabling clean URLs, HTTPS and better performance.",
+    code:`sudo apt install -y nginx
+# Edit /etc/nginx/sites-available/default:
+server {
+    listen 80;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+    }
+}
+# Then:
+sudo systemctl restart nginx` },
+  { cat:"AWS", lang:"bash", title:"Add free HTTPS with Certbot", desc:"Why: HTTPS is expected by users and browsers. Let's Encrypt gives free SSL certificates that auto-renew.",
+    code:`sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d yourdomain.com
+# Certbot edits Nginx and sets up auto-renewal` },
+  { cat:"AWS", lang:"bash", title:"Create an S3 bucket & upload", desc:"Why: S3 stores files (images, backups, static sites) durably and cheaply, served over the web.",
+    code:`aws s3 mb s3://my-bucket-name          # make bucket
+aws s3 cp ./photo.jpg s3://my-bucket-name/
+aws s3 sync ./uploads s3://my-bucket-name  # upload a folder
+aws s3 ls s3://my-bucket-name` },
+  { cat:"AWS", lang:"bash", title:"Host a static React site on S3", desc:"Why: for frontend-only apps, S3 static hosting is cheap, fast and needs no server to maintain.",
+    code:`npm run build
+aws s3 sync build/ s3://my-site --delete
+# In the bucket: Properties > Enable 'Static website hosting'
+# Set index document = index.html` },
+  { cat:"AWS", lang:"text", title:"Speed it up with CloudFront (CDN)", desc:"Why: CloudFront caches your site at edge locations worldwide for fast loads everywhere and adds free HTTPS.",
+    code:`1. Create a CloudFront distribution
+2. Origin = your S3 bucket (or website endpoint)
+3. Default root object = index.html
+4. Use the CloudFront URL, or attach your domain + SSL
+Result: global caching, lower latency, HTTPS by default.` },
+  { cat:"AWS", lang:"text", title:"Use RDS for a managed database", desc:"Why: RDS runs MySQL/Postgres for you — automatic backups, patching and scaling, so you don't manage a DB server.",
+    code:`1. RDS > Create database > MySQL > Free tier
+2. Set master username & password
+3. Allow your EC2's security group to reach the DB
+4. Connect from EC2:
+   mysql -h <rds-endpoint> -u admin -p` },
+  { cat:"AWS", lang:"text", title:"Secure access with IAM", desc:"Why: IAM controls who can do what. Using least-privilege users/roles (not the root account) is the #1 AWS security practice.",
+    code:`Best practices:
+- Never use the root account for daily work
+- Create IAM users with only the permissions they need
+- Give EC2/Lambda a ROLE to access S3/RDS (no hard-coded keys)
+- Turn on MFA (multi-factor authentication)` },
+  { cat:"AWS", lang:"text", title:"Control traffic with security groups", desc:"Why: a security group is a virtual firewall — it decides which ports and IPs can reach your server.",
+    code:`Typical inbound rules:
+  22  (SSH)    -> your IP only
+  80  (HTTP)   -> 0.0.0.0/0  (everyone)
+  443 (HTTPS)  -> 0.0.0.0/0  (everyone)
+Keep the rules as tight as possible.` },
+  { cat:"AWS", lang:"bash", title:"One-click deploy with Elastic Beanstalk", desc:"Why: Beanstalk provisions servers, load balancing and scaling for you — the fastest way to deploy without managing infrastructure.",
+    code:`pip install awsebcli           # install the EB CLI
+eb init -p node.js my-app      # set up the app
+eb create my-env               # create environment & deploy
+eb deploy                      # ship new changes
+eb open                        # open it in the browser` },
+  { cat:"AWS", lang:"text", title:"Connect a domain with Route 53", desc:"Why: Route 53 is AWS's DNS — it maps your custom domain to your EC2, load balancer or CloudFront.",
+    code:`1. Register a domain (or use an existing one)
+2. Create a Hosted Zone for it
+3. Add an A / Alias record pointing to:
+   - your EC2 public IP, or
+   - a Load Balancer / CloudFront distribution` },
+  { cat:"AWS", lang:"bash", title:"Deploy Docker to AWS (ECR + ECS)", desc:"Why: ECR stores your Docker images and ECS/Fargate runs them — production container hosting without managing servers.",
+    code:`# 1. Create a repository for your image
+aws ecr create-repository --repository-name myapp
+
+# 2. Tag & push your image
+docker tag myapp:latest <acct>.dkr.ecr.<region>.amazonaws.com/myapp
+docker push <acct>.dkr.ecr.<region>.amazonaws.com/myapp
+
+# 3. Create an ECS (Fargate) service that runs this image` },
+  { cat:"AWS", lang:"js", title:"Run code serverless with Lambda", desc:"Why: Lambda runs a function on demand with no server to manage and you pay only per execution — great for APIs and automation.",
+    code:`// A basic Lambda function (Node.js)
+exports.handler = async (event) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Hello from Lambda!" }),
+  };
+};
+// Trigger it via API Gateway, S3 events, or a schedule.` },
+  { cat:"AWS", lang:"text", title:"Full deploy flow: project → live on AWS", desc:"Why: the big picture — how all the pieces fit together to take code from your laptop to a public URL.",
+    code:`From code to production (EC2 path):
+1. Build locally & push to GitHub
+2. Launch an EC2 instance (open ports 22/80/443)
+3. SSH in; install Node/PHP + git
+4. Clone the repo, install deps, build
+5. Run with PM2 (Node) or php-fpm (PHP/Laravel)
+6. Add Nginx as a reverse proxy
+7. Point your domain via Route 53
+8. Add free SSL with Certbot  ->  you're live!` },
+  { cat:"AWS", lang:"text", title:"Free Tier & avoiding surprise bills", desc:"Why: students should know what's free and how to prevent unexpected charges while learning.",
+    code:`AWS Free Tier (first 12 months) includes:
+- EC2 t2.micro: 750 hours/month
+- S3: 5 GB storage
+- RDS db.t2.micro: 750 hours/month
+- Lambda: 1M free requests/month
+
+Tip: set a Billing Budget alert (e.g. $1) so AWS
+emails you before you ever get charged.` },
 ];
