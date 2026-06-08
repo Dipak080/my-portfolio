@@ -92,20 +92,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.5 });
     counters.forEach(el => countObserver.observe(el));
 
-    /* ---------- Contact form (mailto fallback) ---------- */
+    /* ---------- Contact form (sends via /api/contact, mailto fallback) ---------- */
     const form = document.getElementById('contactForm');
     const note = document.getElementById('formNote');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        const btn = form.querySelector('button[type="submit"]');
+
+        const mailtoFallback = (payload) => {
+            const subject = encodeURIComponent('Portfolio contact from ' + payload.name);
+            const body = encodeURIComponent(
+                'Name: ' + payload.name + '\nEmail: ' + payload.email + '\n\n' + payload.message
+            );
+            window.location.href =
+                'mailto:dipakbarman080@gmail.com?subject=' + subject + '&body=' + body;
+        };
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = encodeURIComponent(form.name.value.trim());
-            const email = encodeURIComponent(form.email.value.trim());
-            const message = encodeURIComponent(form.message.value.trim());
-            const subject = `Portfolio contact from ${form.name.value.trim()}`;
-            const body = `Name: ${decodeURIComponent(name)}%0D%0AEmail: ${decodeURIComponent(email)}%0D%0A%0D%0A${decodeURIComponent(message)}`;
-            window.location.href = `mailto:dipakbarman080@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
-            note.textContent = 'Opening your email app… thanks for reaching out! 🚀';
-            form.reset();
+            const payload = {
+                name: form.name.value.trim(),
+                email: form.email.value.trim(),
+                message: form.message.value.trim(),
+            };
+            if (!payload.name || !payload.email || !payload.message) {
+                note.style.color = '';
+                note.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            const original = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Sending…';
+            note.textContent = '';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || 'Request failed');
+
+                note.style.color = '';
+                note.textContent = '✅ Thanks! Your message has been sent.';
+                form.reset();
+            } catch (err) {
+                // API not reachable (e.g. opened from file://) — open the email app instead.
+                note.style.color = '';
+                note.textContent = 'Opening your email app…';
+                mailtoFallback(payload);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = original;
+            }
         });
     }
 });
